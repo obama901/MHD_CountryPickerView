@@ -117,7 +117,7 @@
 }
 #pragma mark 左侧取消按钮点击事件
 - (void)cancelBtnAction:(UIButton *)btn
-{    !_confirmClickBlock?:_confirmClickBlock(self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"countryName"],[self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"phoneCode"]isEqualToString:@"(null)"]?@"":self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"phoneCode"]);
+{    !_cancelClickBlock?:_cancelClickBlock(self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"countryName"],[self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"phoneCode"]isEqualToString:@"(null)"]?@"":self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"phoneCode"]);
     [self hideCountryPickerView];
 }
 #pragma mark 右侧确认按钮
