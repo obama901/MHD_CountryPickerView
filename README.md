@@ -4,6 +4,8 @@
 ### 说明
 这是一个国家选择器,选择按照中文拼音的首字母进行区分,国旗的素材有一些还没有完善,后续会补上.
 
+### 演示
+![演示动图](https://github.com/obama901/MHD_CountryPickerView/blob/master/MHD_CountryPickerViewShow.gif)
 ### 使用方法
 * 默认的模式:
 
