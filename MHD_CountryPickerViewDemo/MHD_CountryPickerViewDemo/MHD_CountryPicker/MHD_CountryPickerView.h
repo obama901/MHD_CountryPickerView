@@ -59,8 +59,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)new NS_UNAVAILABLE;
 
+/// 显示国家的选择器
 - (void)showCountryPickerView;
 
+/// 隐藏国家的选择器
 - (void)hideCountryPickerView;
 @end
 

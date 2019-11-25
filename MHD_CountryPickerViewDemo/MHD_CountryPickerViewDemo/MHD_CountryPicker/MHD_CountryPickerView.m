@@ -17,7 +17,7 @@
 @property (nonatomic,retain)UIButton *cancelBtn;
 @property (nonatomic,retain)UIButton *confirmBtn;
 @property (nonatomic,retain)UILabel *centerTitleLabel;
-@property (nonatomic,strong)NSLocale *currentLocale;
+//@property (nonatomic,strong)NSLocale *currentLocale;
 @property (nonatomic,copy)NSArray *jsonCountryArr;
 @end
 
@@ -26,6 +26,7 @@
     NSInteger selectKeyIndex;
     NSInteger selectCountryIndex;
 }
+#pragma mark 初始化
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -53,7 +54,7 @@
         [self cancelBtn];
         [self confirmBtn];
         [self centerTitleLabel];
-        [self currentLocale];
+//        [self currentLocale];
         [self jsonCountryArr];
     }
     return self;
@@ -62,13 +63,14 @@
 {
     return [self initWithFrame:CGRectZero];
 }
-- (NSLocale *)currentLocale
-{
-    if (!_currentLocale) {
-        _currentLocale = [NSLocale currentLocale];
-    }
-    return _currentLocale;
-}
+//- (NSLocale *)currentLocale
+//{
+//    if (!_currentLocale) {
+//        _currentLocale = [NSLocale currentLocale];
+//    }
+//    return _currentLocale;
+//}
+#pragma mark 获取json文件的国家数组
 - (NSArray *)jsonCountryArr
 {
     if (!_jsonCountryArr) {
@@ -76,6 +78,7 @@
     }
     return _jsonCountryArr;
 }
+#pragma mark 工具条视图
 - (UIView *)toolView
 {
     if (!_toolView) {
@@ -85,6 +88,7 @@
     }
     return _toolView;
 }
+#pragma mark 选择器视图
 - (UIPickerView *)pickerView
 {
     if (!_pickerView) {
@@ -96,6 +100,7 @@
     }
     return _pickerView;
 }
+#pragma mark 左侧取消按钮
 - (UIButton *)cancelBtn
 {
     if (!_cancelBtn) {
@@ -104,15 +109,18 @@
         [_cancelBtn setTitleColor:_cancelButtonTitleColor forState:UIControlStateNormal];
         _cancelBtn.frame = CGRectMake(20, 0, 75, 30);
         _cancelBtn.center = CGPointMake(57.5, 20);
+        _cancelBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [_cancelBtn addTarget:self action:@selector(cancelBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         [_toolView addSubview:_cancelBtn];
     }
     return _cancelBtn;
 }
+#pragma mark 左侧取消按钮点击事件
 - (void)cancelBtnAction:(UIButton *)btn
-{    !_confirmClickBlock?:_confirmClickBlock(self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"countryName"],self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"phoneCode"]);
+{    !_confirmClickBlock?:_confirmClickBlock(self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"countryName"],[self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"phoneCode"]isEqualToString:@"(null)"]?@"":self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"phoneCode"]);
     [self hideCountryPickerView];
 }
+#pragma mark 右侧确认按钮
 - (UIButton *)confirmBtn
 {
     if (!_confirmBtn) {
@@ -121,15 +129,18 @@
         [_confirmBtn setTitleColor:_confirmButtonTitleColor forState:UIControlStateNormal];
         _confirmBtn.frame = CGRectMake(MAIN_SIZE.width-95, 0, 75, 30);
         _confirmBtn.center = CGPointMake(MAIN_SIZE.width-57.5, 20);
+        _confirmBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         [_confirmBtn addTarget:self action:@selector(confirmBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         [_toolView addSubview:_confirmBtn];
     }
     return _confirmBtn;
 }
+#pragma mark 右侧确认按钮点击事件
 - (void)confirmBtnAction:(UIButton *)btn
-{    !_confirmClickBlock?:_confirmClickBlock(self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"countryName"],self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"phoneCode"]);
+{    !_confirmClickBlock?:_confirmClickBlock(self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"countryName"],[self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"phoneCode"]isEqualToString:@"(null)"]?@"":self.jsonCountryArr[selectKeyIndex][@"data"][selectCountryIndex][@"phoneCode"]);
     [self hideCountryPickerView];
 }
+#pragma mark 中心的标题文字
 - (UILabel *)centerTitleLabel
 {
     if (!_centerTitleLabel) {
@@ -143,10 +154,12 @@
     }
     return _centerTitleLabel;
 }
+#pragma mark 返回选择器的区
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return 2;
 }
+#pragma mark 返回每个区的单元格数
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     switch (component) {
@@ -160,8 +173,8 @@
             return 0;
             break;
     }
-    
 }
+#pragma mark 返回单元格宽度
 - (CGFloat)pickerView:(UIPickerView *)pickerView widthForComponent:(NSInteger)component API_UNAVAILABLE(tvos)
 {
     switch (component) {
@@ -176,10 +189,12 @@
             break;
     }
 }
+#pragma mark 返回单元格高度
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component API_UNAVAILABLE(tvos)
 {
     return 30.f;
 }
+#pragma mark 返回单元格内容
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(nullable UIView *)view API_UNAVAILABLE(tvos)
 {
     switch (component) {
@@ -218,7 +233,7 @@
     }
     return nil;
 }
-                                      
+#pragma mark 单元格选择事件
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component API_UNAVAILABLE(tvos)
 {
     if (component==0) {
@@ -230,6 +245,7 @@
         selectCountryIndex = row;
     }
 }
+#pragma mark 显示该选择器
 - (void)showCountryPickerView
 {
     [self.pickerView selectRow:0 inComponent:0 animated:false];
@@ -244,6 +260,7 @@
 
     }];
 }
+#pragma mark 使选择器消失
 - (void)hideCountryPickerView
 {
     [UIView animateWithDuration:0.25f animations:^{
